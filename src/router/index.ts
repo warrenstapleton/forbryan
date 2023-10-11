@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/graph',
       name: 'graph',
-      component: () => import('../views/GraphView.vue')
+      component: () => import('../views/EditorView.vue')
     },
     {
       path: '/about',

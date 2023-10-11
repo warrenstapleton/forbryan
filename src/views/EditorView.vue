@@ -1,6 +1,7 @@
 <script setup lang="ts">
 //@ts-ignore
 import TheGraph from '../components/TheGraph.vue'
+import Libraries from '../components/Libraries.vue'
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import TheGraph from '../components/TheGraph.vue'
     <div class="editor-main">
       <div class="editor-library">
         <p>Library 2</p>
+        <Libraries/>
       </div>
       <div class="editor-graph">
         <TheGraph />
