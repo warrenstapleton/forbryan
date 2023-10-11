@@ -1,25 +1,22 @@
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
   <div class="app">
-
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/graph">Graph</RouterLink>
       <RouterLink to="/about">About</RouterLink>
     </nav>
 
-    <RouterView/>
+    <RouterView />
   </div>
 </template>
 
 <style scoped>
 .app {
   flex-direction: column;
+  place-items: center;
 }
-
 </style>
