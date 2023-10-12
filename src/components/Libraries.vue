@@ -9,6 +9,7 @@
       <span class="material-symbols-outlined">
         search
       </span>
+      <v-icon icon="mdi-search"/>
     </div>
   </div>
 </template>
