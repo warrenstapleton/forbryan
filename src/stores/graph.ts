@@ -1,13 +1,13 @@
 import {ref} from 'vue'
 import {defineStore} from 'pinia'
-import {Client, Graph, InternalEvent, RubberBandHandler} from '@maxgraph/core';
+import {Graph, InternalEvent, RubberBandHandler} from '@maxgraph/core';
 
 export const useGraphStore = defineStore('graph', () => {
 
-        const graph: Graph = ref(null)
+        const graph = ref(null as Graph)
 
         function initializeGraph(container: HTMLDivElement) {
-            console.log("initializeGraph container=", container)
+            // console.log("initializeGraph container=", container)
             graph.value = new Graph(container)
             // Disable the built-in context menu
             InternalEvent.disableContextMenu(container);

@@ -12,14 +12,14 @@ import {RouterLink, RouterView} from 'vue-router'
         </template>
         <v-app-bar-title>SoC Designer</v-app-bar-title>
         <template v-slot:append>
-          <v-btn bg-color=blue icon="mdi mdi-dots-vertical"></v-btn>
+          <v-btn bg-color=blue icon="mdi-dots-vertical"></v-btn>
         </template>
       </v-app-bar>
 
       <v-main>
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/graph">Graph</RouterLink>
+          <RouterLink to="/editor">Editor</RouterLink>
           <RouterLink to="/about">About</RouterLink>
         </nav>
 

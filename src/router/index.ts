@@ -10,8 +10,8 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/graph',
-      name: 'graph',
+      path: '/editor',
+      name: 'editor',
       component: () => import('../views/EditorView.vue')
     },
     {

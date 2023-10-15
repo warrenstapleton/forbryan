@@ -59,7 +59,7 @@ import Libraries from '../components/Libraries.vue'
 }
 .editor-library {
   flex-direction: column;
-  width: 12.5%;
+  width: 20%;
   background: linear-gradient(36deg, blue, lightblue);
 }
 .editor-properties {
