@@ -1,23 +1,33 @@
 <script setup lang="ts">
-import {ref, onMounted, onBeforeMount} from 'vue'
+import {ref, onMounted} from 'vue'
 // import './style.css';
 import {type CellStyle, Graph} from '@maxgraph/core'
 import {registerCustomShapes} from './custom-shapes'
-import {useGraphStore} from '@/stores/graph.ts'
+import {useGraphStore} from '@/stores/graph'
 import {storeToRefs} from "pinia";
 
+const graphContainer = ref<HTMLDivElement | null>(null)
+
 onMounted(() => {
+  console.log("onMounted")
+  if (graphContainer.value == null) {
+    return
+  }
   const graphStore = useGraphStore()
-  const {initializeGraph} = graphStore
+  const {createGraph, initializeGraph} = graphStore
   const {graph} = storeToRefs(graphStore)
 
   // keep a copy of the graph in local storage and update when it changes
-  graphStore.$subscribe((mutation, state) => {
-    // localStorage.setItem('graph', JSON.stringify(state))  this didn't work because of circular structure
-  })
+  // graphStore.$subscribe((mutation, state) => {
+  //   localStorage.setItem('graph', JSON.stringify(state.graph.model))
+  // })
 
-  // Create the graph inside the given container
-  initializeGraph(<HTMLElement>document.getElementById('graph-container'))
+  // Create the graph inside the graph container
+  console.log("graphContainer=", graphContainer.value)
+  createGraph(graphContainer.value)
+
+  // initialize graph
+  initializeGraph()
 
   const g = graph.value // why did I need to do this? WGS
   // shapes and styles
@@ -65,8 +75,23 @@ onMounted(() => {
     g.insertEdge(parent, null, 'another edge', vertex11, vertex12)
   })
 })
+
+const onDrop = (event: Event) => {
+  console.log(event)
+  // const itemId = event.dataTransfer.getData('itemId')
+}
+
 </script>
 
 <template>
-  <div id="graph-container"></div>
+  <div
+      draggable="true"
+      @drop="onDrop($event)"
+  >
+    <div
+        ref="graphContainer"
+        draggable="true"
+        @drop="onDrop($event)"
+    ></div>
+  </div>
 </template>
