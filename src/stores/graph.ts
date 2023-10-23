@@ -1,17 +1,18 @@
 import {ref} from 'vue'
 import {defineStore} from 'pinia'
-import {Graph, InternalEvent, RubberBandHandler} from '@maxgraph/core';
+import {Graph, InternalEvent, RubberBandHandler, EditorToolbar} from '@maxgraph/core';
 
 export const useGraphStore = defineStore('graph', () => {
 
         const graph = ref<Graph>()
+        const toolbarItems = ref<HTMLDivElement[]>([])
 
         function createGraph(container: HTMLDivElement) {
             InternalEvent.disableContextMenu(container)
             graph.value = new Graph(container)
         }
 
-        function initializeGraph() {
+        function initGraph() {
 
             if (graph.value == null) {
                 return
@@ -35,6 +36,38 @@ export const useGraphStore = defineStore('graph', () => {
             // })
         }
 
-        return {graph, createGraph, initializeGraph}
+        function addToolbarItem(item: HTMLDivElement) {
+            toolbarItems.value.push(item)
+        }
+
+        function initToolbar() {
+            // const domArray = this.$refs.toolItem
+
+            if (!(toolbarItems.value instanceof Array) || toolbarItems.value.length <= 0) {
+                return
+            }
+            toolbarItems.value.forEach((dom, domIndex) => {
+                console.log("domIndex=", domIndex)
+                // const toolItem = this.toolbarItems[domIndex]
+                // const {width, height} = toolItem
+                //
+                const dropHandler = (graph, evt, cell, x, y) => {
+                    console.log("x,y=",x,y)
+                    // this.addCell(toolItem, x, y)
+                }
+                const createDragPreview = () => {
+                    const elt = document.createElement('div')
+
+                    elt.style.border = '2px dotted black'
+                    elt.style.width = `${50}px`
+                    elt.style.height = `${50}px`
+                    return elt
+                }
+
+                // EditorToolbar.makeDraggable(dom, this.graph, dropHandler, createDragPreview(), 0, 0, false, true)
+            })
+        }
+
+        return {graph, createGraph, initGraph, initToolbar, addToolbarItem}
     }
 )

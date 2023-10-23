@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from 'vue'
 import {LabelShape, AlignValue, VAlignValue} from '@maxgraph/core'
+import {useGraphStore} from "@/stores/graph";
 
 let panels = ref(0)
 
@@ -44,6 +45,12 @@ const dragStart = (event: Event) => {
   console.log(event)
 }
 
+const addToolbarItem = (item: HTMLDListElement) => {
+  const graphStore = useGraphStore()
+  const {addToolbarItem} = graphStore
+  addToolbarItem(item)
+}
+
 // let panels = 0
 </script>
 
@@ -59,14 +66,15 @@ const dragStart = (event: Event) => {
         <v-expansion-panel-text class="ma-0">
           <v-row class="pa-0 ma-0">
             <v-card v-for="component in components" :key="component.title"
-                elevation="2"
-                class="pa-2"
-                draggable="true"
-                @dragstart="dragStart($event)"
-                :width="50"
-                :height="50">
+                    elevation="2"
+                    class="pa-2"
+                    draggable="true"
+                    @dragstart="dragStart($event)"
+                    :width="50"
+                    :height="50"
+                    :ref="(el) => {addToolbarItem(el)}">
               <v-img src="@/assets/tcdx.svg" :width="component['width']" :height="component['height']"/>
-<!--              <v-img :src="component['icon']" :width="component['width']" :height="component['height']"/>-->
+              <!--              <v-img :src="component['icon']" :width="component['width']" :height="component['height']"/>-->
             </v-card>
           </v-row>
         </v-expansion-panel-text>

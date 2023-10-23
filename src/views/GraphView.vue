@@ -1,45 +1,44 @@
 <script setup lang="ts">
 //@ts-ignore
-import TheEditor from '../components/TheEditor.vue'
-// import Libraries from '../components/Libraries.vue'
-
+import TheGraph from '../components/TheGraph.vue'
+import Libraries from '../components/Libraries.vue'
 </script>
 
 <template>
-  <div class="editor-container">
-<!--    <div class="editor-toolbar">-->
-<!--      Toolbar <button class="tb-btn" @click="test">test</button><button class="tb-btn">test2</button>-->
-<!--    </div>-->
-    <div class="editor-main">
-<!--      <div class="editor-library">-->
-<!--        <p>Library 2</p>-->
-<!--        <Libraries/>-->
-<!--      </div>-->
-      <div class="editor-graph">
-        <TheEditor />
+  <div class="graph-container">
+    <div class="graph-toolbar">
+      Toolbar <button class="tb-btn">test</button><button class="tb-btn">test2</button>
+    </div>
+    <div class="graph-main">
+      <div class="graph-library">
+        <p>Library 2</p>
+        <Libraries/>
       </div>
-<!--      <div class="editor-properties">-->
-<!--        <p>Properties</p>-->
-<!--      </div>-->
+      <div class="graph-graph">
+        <TheGraph />
+      </div>
+      <div class="graph-properties">
+        <p>Properties</p>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* remove width + margin in .editor-container to set back to full size */
-.editor-container {
+/* remove width + margin in .graph-container to set back to full size */
+.graph-container {
   display: flex;
   flex-direction: column;
   width: 90%;
   margin: auto;
   height: 80vh;
 }
-.editor-container > * {
+.graph-container > * {
   display: flex;
 }
 
 /* place-content can be set to center or flex-end to move toolbar items to the center or right, respectively */
-.editor-toolbar {
+.graph-toolbar {
   background-color: red;
   place-items: center;
   place-content: start;
@@ -48,22 +47,22 @@ import TheEditor from '../components/TheEditor.vue'
   border-top-right-radius: 5px;
 }
 
-.editor-toolbar > * {
+.graph-toolbar > * {
   margin: 0px 2px;
 }
 
-.editor-main {
+.graph-main {
   height: 100%;
 }
-.editor-graph {
+.graph-graph {
   width: 75%;
 }
-.editor-library {
+.graph-library {
   flex-direction: column;
   width: 20%;
   background: linear-gradient(36deg, blue, lightblue);
 }
-.editor-properties {
+.graph-properties {
   flex-direction: column;
   width: 12.5%;
   background: linear-gradient(65deg, lightblue, purple);

@@ -1,26 +1,45 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue'
 // import './style.css';
-import {type CellStyle, Graph} from '@maxgraph/core'
+import {type CellStyle, Editor} from '@maxgraph/core'
 import {registerCustomShapes} from './custom-shapes'
-import {useGraphStore} from '@/stores/graph'
+import {useEditorStore} from '@/stores/editor'
 import {storeToRefs} from "pinia";
 
-const graphContainer = ref<HTMLDivElement | null>(null)
+const editorContainer = ref<HTMLDivElement | null>(null)
 const toolbarItems = ref<HTMLDivElement[]>([])
 
+function addSomething() {
+  const editorStore = useEditorStore()
+  const {createEditor, initEditor, initToolbar} = editorStore
+  const {editor} = storeToRefs(editorStore)
+  console.log("Add Something")
+  var userObject = new Object();
+  var parent = editor.value.graph.getDefaultParent();
+  var model = editor.value.graph.model;
+  model.beginUpdate();
+  try
+  {
+    editor.value.graph.insertVertex(parent, null, userObject, 20, 20, 80, 30);
+  }
+  finally
+  {
+    model.endUpdate();
+  }
+}
+
 function addToolbarItem(item: HTMLDivElement) {
-  toolbarItems.push(item)
+  toolbarItems.value.push(item)
 }
 
 onMounted(() => {
   console.log("onMounted")
-  if (graphContainer.value == null) {
+  if (editorContainer.value == null) {
     return
   }
-  const graphStore = useGraphStore()
-  const {createGraph, initGraph, initToolbar} = graphStore
-  const {graph} = storeToRefs(graphStore)
+  const editorStore = useEditorStore()
+  const {createEditor, initEditor, initToolbar} = editorStore
+  const {editor} = storeToRefs(editorStore)
 
   // keep a copy of the graph in local storage and update when it changes
   // graphStore.$subscribe((mutation, state) => {
@@ -28,16 +47,16 @@ onMounted(() => {
   // })
 
   // Create the graph inside the graph container
-  console.log("graphContainer=", graphContainer.value)
-  createGraph(graphContainer.value)
+  console.log("graphContainer=", editorContainer.value)
+  createEditor(editorContainer.value)
 
   // initialize graph
-  initGraph()
+  initEditor()
 
   // iniitalize toolbar
   initToolbar()
 
-  const g = graph.value // why did I need to do this? WGS
+  const g = editor.value.graph // why did I need to do this? WGS
   // shapes and styles
   registerCustomShapes()
   // @ts-ignore TODO fix TS2532: Object is possibly 'undefined'.
@@ -84,16 +103,10 @@ onMounted(() => {
   })
 })
 
-const allowDrop = (event: Event) => {
-  console.log("allowDrop")
-  event.preventDefault()
-}
 const onDrop = (event: Event) => {
   console.log(event)
   // const itemId = event.dataTransfer.getData('itemId')
 }
-
-
 
 </script>
 
@@ -102,11 +115,13 @@ const onDrop = (event: Event) => {
       draggable="true"
       @drop="onDrop($event)"
   >
+    <div>
+      <button @click="addSomething">Add Something</button>
+    </div>
     <div
-        ref="graphContainer"
+        ref="editorContainer"
         draggable="true"
-        ondrop="onDrop($event)"
-        ondragover="allowDrop($event)"
+        @drop="onDrop($event)"
     ></div>
   </div>
 </template>
