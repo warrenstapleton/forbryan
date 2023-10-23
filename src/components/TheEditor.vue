@@ -105,6 +105,7 @@ onMounted(() => {
 
 const onDrop = (event: Event) => {
   console.log(event)
+  addSomething()
   // const itemId = event.dataTransfer.getData('itemId')
 }
 

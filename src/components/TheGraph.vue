@@ -5,6 +5,7 @@ import {type CellStyle, Graph} from '@maxgraph/core'
 import {registerCustomShapes} from './custom-shapes'
 import {useGraphStore} from '@/stores/graph'
 import {storeToRefs} from "pinia";
+import {useEditorStore} from "@/stores/editor";
 
 const graphContainer = ref<HTMLDivElement | null>(null)
 const toolbarItems = ref<HTMLDivElement[]>([])
@@ -84,12 +85,35 @@ onMounted(() => {
   })
 })
 
+function addSomething(x: number, y: number, w: number, h: number) {
+  const graphStore = useGraphStore()
+  const {createEditor, initEditor, initToolbar} = graphStore
+  const {graph} = storeToRefs(graphStore)
+  console.log("Add Something")
+  var userObject = new Object();
+  var parent = graph.value.getDefaultParent();
+  var model = graph.value.model;
+  model.beginUpdate();
+  try
+  {
+    graph.value.insertVertex(parent, null, userObject, x, y, w, h);
+  }
+  finally
+  {
+    model.endUpdate();
+  }
+}
+
 const allowDrop = (event: Event) => {
-  console.log("allowDrop")
+  console.log("allowDrop: ",event)
   event.preventDefault()
 }
 const onDrop = (event: Event) => {
-  console.log(event)
+  console.log("onDrop: ",event)
+  var gridRect = graphContainer.value!.getBoundingClientRect();
+  var targetX = event.x - gridRect.x;
+  var targetY = event.y - gridRect.y;
+  addSomething(targetX, targetY, 80, 30)
   // const itemId = event.dataTransfer.getData('itemId')
 }
 
@@ -99,14 +123,13 @@ const onDrop = (event: Event) => {
 
 <template>
   <div
-      draggable="true"
-      @drop="onDrop($event)"
+
   >
     <div
         ref="graphContainer"
         draggable="true"
-        ondrop="onDrop($event)"
-        ondragover="allowDrop($event)"
+        @drop="onDrop($event)"
+        @dragover="allowDrop($event)"
     ></div>
   </div>
 </template>
